@@ -1,0 +1,60 @@
+/* Style for the AnchorList component */
+.anchor-list {
+    display: flex;
+    flex-wrap: wrap;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.anchor-desc {
+    text-align: left;
+    margin-left: 20px;
+}
+
+.anchor-item {
+    display: flex;
+    box-sizing: border-box;
+    margin: 10px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    text-align: center;
+}
+
+.anchor-item img {
+    width: 100px;
+    height: auto;
+    border-radius: 8px;
+}
+
+.anchor-item h3 {
+    color: #000;
+    margin: 10px 0;
+}
+
+.anchor-item p {
+    margin: 10px 0;
+    color: #555;
+}
+
+.anchor-item a {
+    color: #007bff;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.anchor-item a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 768px) { 
+    .anchor-item {
+        padding: 10px;
+    }
+    .anchor-item p {
+        font-size: 12px;
+    }
+}
