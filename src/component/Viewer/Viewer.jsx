@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Model from "../Model";
 import AnchorList from "../PopOvers/Anchors";
 import BreakingNews from "../PopOvers/BreakingNews";
@@ -12,49 +12,50 @@ const Viewer = () => {
   const [hotspotName, setHotspotName] = useState("");
   const [modalContent, setModalContent] = useState(null);
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const handleMessage = (event) => {
+      // console.log("Message received:", event.data); 
+      const message = event.data;
+      let content = null;
+
+      switch (message.hotspotName) {
+        case "News1":
+          content = <BreakingNews />;
+          setHotspotName("News1");
+          break;
+        case "Anchor":
+          content = <AnchorList />;
+          setHotspotName("Anchor");
+          break;
+        case "Pin1":
+        case "Pin2":
+          content = <AnchorStandingPlace />;
+          setHotspotName(message.hotspotName);
+          break;
+        case "miniScreen1":
+        case "miniScreen2":
+        case "miniScreen3":
+          content = <NewsHighlights highlightName={message.hotspotName} />;
+          setHotspotName("News Highlight");
+          break;
+        case "Screen1":
+          content = <NowShowing />;
+          setHotspotName("Now Showing");
+          break;
+        default:
+          console.log("The Hotspot clicked:", message.hotspotName);
+          return;
+      }
+
+      setModalContent(content);
+      setIsModelOpen(true);
+    };
+
     window.addEventListener("message", handleMessage);
     return () => {
       window.removeEventListener("message", handleMessage);
     };
   }, []);
-
-  const handleMessage = (event) => {
-    const message = event.data;
-    let content = null;
-
-    switch (message.hotspotName) {
-      case "News1":
-        content = <BreakingNews />
-        setHotspotName("News1");
-        break;
-      case "Anchor":
-        content = <AnchorList />
-        setHotspotName("Anchor");
-        break;
-      case "Pin1":
-      case "Pin2":
-        content = <AnchorStandingPlace />
-        setHotspotName(message.hotspotName);
-        break;
-      case "miniScreen1":
-      case "miniScreen2":
-      case "miniScreen3":
-        content = <NewsHighlights highlightName={message.hotspotName} />
-        setHotspotName('News Highlight');
-        break;
-     case 'Screen1':
-        content = <NowShowing />
-        setHotspotName('Now Showing');
-        break;
-      default:
-        console.log("The Hotspot clicked:", message.hotspotName);
-        return;
-    }
-
-    setModalContent(content);
-    setIsModelOpen(true);
-  };
 
   const closeModel = () => {
     setIsModelOpen(false);
